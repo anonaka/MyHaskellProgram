@@ -15,3 +15,18 @@ edge12 = Edge node1 node2 10
 edge13 = Edge node1 node3 30
 edge24 = Edge node2 node4 40
 edge34 = Edge node3 node4 5
+
+getNodeLabel :: Node -> NodeLabel
+getNodeLabel (Node _ label) = label
+
+getNodeId :: Node -> NodeId
+getNodeId (Node id _) = id
+
+getEdgeLength :: Edge -> EdgeLength
+getEdgeLength (Edge _ _ len) = len
+
+getStartNode :: Edge -> Node
+getStartNode (Edge start _ _) = start
+
+getEndNode :: Edge -> Node
+getEndNode (Edge _ end _) = end
