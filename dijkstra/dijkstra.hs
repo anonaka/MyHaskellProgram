@@ -35,6 +35,9 @@ getStartNode (Edge start _ _) = start
 getEndNode :: Edge -> Node
 getEndNode (Edge _ end _) = end
 
+findEdges :: Node -> [Edge]
+findEdges node = []
+
 main :: IO()
 main = do
   putStrLn "Dijkstra Method"
