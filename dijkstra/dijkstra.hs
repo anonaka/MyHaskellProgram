@@ -5,6 +5,13 @@ type EdgeLength = Integer
 data Node = Node NodeId NodeLabel deriving (Show,Eq)
 data Edge = Edge Node Node EdgeLength deriving (Show,Eq)
 
+instance Ord Edge where
+  compare (Edge n1 n2 len) (Edge n1' n2' len')
+    | len == len'   = EQ
+    | len < len'    = LT
+    | otherwise = GT
+
+
 -- Test Data
 node1 = Node 1 "a"
 node2 = Node 2 "b"
