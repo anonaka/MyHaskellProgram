@@ -11,10 +11,14 @@ node2 = Node 2 "b"
 node3 = Node 3 "c"
 node4 = Node 4 "d"
 
+
 edge12 = Edge node1 node2 10
 edge13 = Edge node1 node3 30
 edge24 = Edge node2 node4 40
 edge34 = Edge node3 node4 5
+edge23 = Edge node2 node3 7
+
+allEdges = [edge12,edge13,edge24,edge34,edge23]
 
 getNodeLabel :: Node -> NodeLabel
 getNodeLabel (Node _ label) = label
@@ -30,3 +34,7 @@ getStartNode (Edge start _ _) = start
 
 getEndNode :: Edge -> Node
 getEndNode (Edge _ end _) = end
+
+main :: IO()
+main = do
+  putStrLn "Dijkstra Method"
