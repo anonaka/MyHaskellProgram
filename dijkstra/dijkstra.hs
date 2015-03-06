@@ -18,7 +18,6 @@ node2 = Node 2 "b"
 node3 = Node 3 "c"
 node4 = Node 4 "d"
 
-
 edge12 = Edge node1 node2 10
 edge13 = Edge node1 node3 30
 edge24 = Edge node2 node4 40
@@ -45,6 +44,10 @@ getEndNode (Edge _ end _) = end
 findEdges :: [Edge] -> Node -> [Edge]
 findEdges allEdges node = 
     filter (\x -> (getStartNode x) == node) allEdges
+
+findNearest :: Node -> Node
+findNearest node =
+    minimum $ findEdges allEdges node 
 
 main :: IO()
 main = do
