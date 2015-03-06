@@ -45,9 +45,9 @@ findEdges :: [Edge] -> Node -> [Edge]
 findEdges allEdges node = 
     filter (\x -> (getStartNode x) == node) allEdges
 
-findNearest :: Node -> Node
-findNearest node =
-    minimum $ findEdges allEdges node 
+findNearest :: [Edge] -> Node -> Node
+findNearest allEdges node  =
+    getEndNode $ minimum $ findEdges allEdges node 
 
 main :: IO()
 main = do
