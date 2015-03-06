@@ -35,8 +35,8 @@ getStartNode (Edge start _ _) = start
 getEndNode :: Edge -> Node
 getEndNode (Edge _ end _) = end
 
-findEdges :: Node -> [Edge]
-findEdges node = []
+findEdges :: [Edge] -> Node -> [Edge]
+findEdges allEdges node = []
 
 main :: IO()
 main = do
