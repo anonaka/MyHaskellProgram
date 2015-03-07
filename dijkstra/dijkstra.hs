@@ -1,8 +1,9 @@
 type NodeId = Integer
 type NodeLabel = String
-type EdgeLength = Integer
+type EdgeLength = Int
+type Distance = Int
 
-data Node = Node NodeId NodeLabel deriving (Show,Eq)
+data Node = Node NodeId NodeLabel Distance deriving (Show,Eq)
 data Edge = Edge Node Node EdgeLength deriving (Show,Eq)
 
 instance Ord Edge where
@@ -13,10 +14,10 @@ instance Ord Edge where
 
 
 -- Test Data
-node1 = Node 1 "a"
-node2 = Node 2 "b"
-node3 = Node 3 "c"
-node4 = Node 4 "d"
+node1 = Node 1 "a" 0
+node2 = Node 2 "b" (maxBound :: Int)
+node3 = Node 3 "c" (maxBound :: Int)
+node4 = Node 4 "d" (maxBound :: Int)
 
 edge12 = Edge node1 node2 10
 edge13 = Edge node1 node3 30
@@ -27,10 +28,14 @@ edge23 = Edge node2 node3 7
 allEdges = [edge12,edge13,edge24,edge34,edge23]
 
 getNodeLabel :: Node -> NodeLabel
-getNodeLabel (Node _ label) = label
+getNodeLabel (Node _ label _) = label
 
 getNodeId :: Node -> NodeId
-getNodeId (Node id _) = id
+getNodeId (Node id _ _) = id
+
+getNodeDistance :: Node -> Distance
+getNodeDistance (Node _  _ distance) = distance
+
 
 getEdgeLength :: Edge -> EdgeLength
 getEdgeLength (Edge _ _ len) = len
@@ -49,6 +54,8 @@ findNearest :: [Edge] -> Node -> Node
 findNearest allEdges node  =
     getEndNode $ minimum $ findEdges allEdges node 
 
+
+-- 
 main :: IO()
 main = do
   putStrLn "Dijkstra Method"
