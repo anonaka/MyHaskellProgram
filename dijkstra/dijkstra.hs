@@ -36,6 +36,9 @@ getNodeId (Node id _ _) = id
 getNodeDistance :: Node -> Distance
 getNodeDistance (Node _  _ distance) = distance
 
+setNodeDistance :: Node -> Distance -> Node
+setNodeDistance node distance = Node (getNodeId node)(getNodeLabel node) distance
+
 
 getEdgeLength :: Edge -> EdgeLength
 getEdgeLength (Edge _ _ len) = len
