@@ -27,6 +27,8 @@ edge23 = Edge node2 node3 7
 
 allEdges = [edge12,edge13,edge24,edge34,edge23]
 
+-- Node functions
+
 getNodeLabel :: Node -> NodeLabel
 getNodeLabel (Node _ label _) = label
 
@@ -39,7 +41,7 @@ getNodeDistance (Node _  _ distance) = distance
 setNodeDistance :: Node -> Distance -> Node
 setNodeDistance node distance = Node (getNodeId node)(getNodeLabel node) distance
 
-
+-- Edge functions
 getEdgeLength :: Edge -> EdgeLength
 getEdgeLength (Edge _ _ len) = len
 
@@ -53,6 +55,10 @@ findEdges :: [Edge] -> Node -> [Edge]
 findEdges allEdges node = 
     filter (\x -> (getStartNode x) == node) allEdges
 
+findNextNodes :: [Edge] -> Node -> [Node]
+findNextNodes allEdges startNode  =
+    map getEndNode $ findEdges allEdges startNode
+           
 findNearest :: [Edge] -> Node -> Node
 findNearest allEdges node  =
     getEndNode $ minimum $ findEdges allEdges node 
