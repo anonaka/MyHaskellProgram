@@ -1,3 +1,5 @@
+import Data.List
+
 type NodeId = Integer
 type NodeLabel = String
 type EdgeLength = Int
@@ -74,8 +76,32 @@ findNearestNode allEdges node  =
 findShortestDistanceNode :: [Node] -> Node
 findShortestDistanceNode allNodes =
     minimum allNodes
-            
--- 
+
+mainLogic :: [Node] -> [Node]
+mainLogic allNodes =
+    newQ
+    where
+      u = findShortestDistanceNode allNodes
+      newQ = delete u allNodes
+      nextNodeList = findNextNodes allEdges u
+
+findEdge :: [Edge] -> Node -> Node -> Edge
+findEdge allEdges n1 n2 =
+    head $ filter (\x -> (getEndNode x) == n2) $ findEdges allEdges n1
+
+    
+calcShortestNodeDistance :: Node -> Node -> Node
+calcShortestNodeDistance n1 n2 =
+    if d2 > d2'
+    then setNodeDistance n2 d2'
+    else n2
+    where
+      len = getEdgeLength $ findEdge allEdges n1 n2
+      d1 = getNodeDistance n1
+      d2 = getNodeDistance n2
+      d2' = d1 + len
+
+
 main :: IO()
 main = do
   putStrLn "Dijkstra Method"
