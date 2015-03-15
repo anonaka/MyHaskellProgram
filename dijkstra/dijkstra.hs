@@ -8,6 +8,9 @@ type PreviousNode = Maybe Node
     
 data Node = Node NodeId NodeLabel deriving (Show,Eq)
 data Edge = Edge Node Node EdgeLength deriving (Show,Eq)
+
+
+-- Data structure to record shortest distance and path info
 data PathInfo = PathInfo
               Node
               PreviousNode
@@ -42,10 +45,22 @@ allEdges = [edge12,edge13,edge24,edge34,edge23]
 
 initPathInfo :: [PathInfo]
 initPathInfo =
-    map (\node -> PathInfo node Nothing (maxBound :: Int)) allNodes
+    map (\node -> if isStartNode node
+                  then PathInfo node Nothing 0
+                  else PathInfo node Nothing (maxBound :: Int)
+    )
+    allNodes
 
+
+        
 -- Node functions
 
+isStartNode :: Node -> Bool
+isStartNode node =
+    if 1 == getNodeId node
+    then True
+    else False
+    
 getNodeLabel :: Node -> NodeLabel
 getNodeLabel (Node _ label ) = label
 
