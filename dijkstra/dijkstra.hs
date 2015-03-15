@@ -4,16 +4,16 @@ type NodeId = Integer
 type NodeLabel = String
 type EdgeLength = Int
 type Distance = Int
-
-data Node = Node NodeId NodeLabel Distance deriving (Show,Eq)
+type PreviousNode = Maybe Node
+    
+data Node = Node NodeId NodeLabel deriving (Show,Eq)
 data Edge = Edge Node Node EdgeLength deriving (Show,Eq)
-
-instance Ord Node where
-    compare (Node _ _ d) (Node _ _ d')
-        | d == d' = EQ
-        | d < d' = LT
-        | otherwise = GT
-
+data PathInfo = PathInfo
+              Node
+              PreviousNode
+              Distance
+              deriving (Show,Eq)
+                       
 instance Ord Edge where
     compare (Edge _ _ len) (Edge _ _ len')
         | len == len'   = EQ
@@ -22,10 +22,11 @@ instance Ord Edge where
 
 
 -- Test Data
-node1 = Node 1 "a" 0 -- 1st node
-node2 = Node 2 "b" (maxBound :: Int)
-node3 = Node 3 "c" (maxBound :: Int)
-node4 = Node 4 "d" (maxBound :: Int) -- goal node
+node1 = Node 1 "a"
+node2 = Node 2 "b"
+node3 = Node 3 "c"
+node4 = Node 4 "d"
+        
         
 allNodes = [node1,node2,node3,node4]
         
@@ -37,19 +38,20 @@ edge23 = Edge node2 node3 7
 
 allEdges = [edge12,edge13,edge24,edge34,edge23]
 
+-- Init Path info
+
+initPathInfo :: [PathInfo]
+initPathInfo =
+    map (\node -> PathInfo node Nothing (maxBound :: Int)) allNodes
+
 -- Node functions
 
 getNodeLabel :: Node -> NodeLabel
-getNodeLabel (Node _ label _) = label
+getNodeLabel (Node _ label ) = label
 
 getNodeId :: Node -> NodeId
-getNodeId (Node id _ _) = id
+getNodeId (Node id _ ) = id
 
-getNodeDistance :: Node -> Distance
-getNodeDistance (Node _  _ distance) = distance
-
-setNodeDistance :: Node -> Distance -> Node
-setNodeDistance node distance = Node (getNodeId node)(getNodeLabel node) distance
 
 -- Edge functions
 getEdgeLength :: Edge -> EdgeLength
@@ -73,10 +75,9 @@ findNearestNode :: [Edge] -> Node -> Node
 findNearestNode allEdges node  =
     getEndNode $ minimum $ findEdges allEdges node 
                
-findShortestDistanceNode :: [Node] -> Node
-findShortestDistanceNode allNodes =
-    minimum allNodes
-
+findShortestDistanceNode =
+    undefined
+                                      
 mainLogic :: [Node] -> [Node]
 mainLogic allNodes =
     newQ
@@ -85,21 +86,14 @@ mainLogic allNodes =
       newQ = delete u allNodes
       nextNodeList = findNextNodes allEdges u
 
+
+-- NodeとNodeを結ぶEdgeを求める
+-- Node間は直結されている必要がある
 findEdge :: [Edge] -> Node -> Node -> Edge
 findEdge allEdges n1 n2 =
     head $ filter (\x -> (getEndNode x) == n2) $ findEdges allEdges n1
 
     
-calcShortestNodeDistance :: Node -> Node -> Node
-calcShortestNodeDistance n1 n2 =
-    if d2 > d2'
-    then setNodeDistance n2 d2'
-    else n2
-    where
-      len = getEdgeLength $ findEdge allEdges n1 n2
-      d1 = getNodeDistance n1
-      d2 = getNodeDistance n2
-      d2' = d1 + len
 
 
 main :: IO()
