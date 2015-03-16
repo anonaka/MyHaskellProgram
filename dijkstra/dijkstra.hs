@@ -51,8 +51,9 @@ initPathInfo =
     )
     allNodes
 
-findPathInfo :: Node -> PathInfo
-findPathInfo = undefined
+findPathInfo :: [PathInfo] -> Node -> PathInfo
+findPathInfo allPath node =
+    head $ filter (\x -> node == x) allPath
         
 -- Node functions
 
