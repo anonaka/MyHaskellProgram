@@ -51,7 +51,8 @@ initPathInfo =
     )
     allNodes
 
-
+findPathInfo :: Node -> PathInfo
+findPathInfo = undefined
         
 -- Node functions
 
