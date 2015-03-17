@@ -11,10 +11,10 @@ data Edge = Edge Node Node EdgeLength deriving (Show,Eq)
 
 
 -- Data structure to record shortest distance and path info
-data PathInfo = PathInfo
-              Node
-              PreviousNode
-              Distance
+data PathInfo = PathInfo {
+              node :: Node,
+              prevNode :: PreviousNode,
+              distance :: Distance }
               deriving (Show,Eq)
                        
 instance Ord Edge where
@@ -52,8 +52,8 @@ initPathInfo =
     allNodes
 
 findPathInfo :: [PathInfo] -> Node -> PathInfo
-findPathInfo allPath node =
-    head $ filter (\x -> node == x) allPath
+findPathInfo allPath nd =
+    head $ filter (\x -> nd == (node x)) allPath
         
 -- Node functions
 
