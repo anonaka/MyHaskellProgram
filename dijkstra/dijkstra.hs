@@ -15,7 +15,6 @@ data PathInfo = PathInfo {
               prevNode :: PreviousNode,
               distance :: Distance }
               deriving (Show,Eq)
-
                        
 instance Ord Edge where
     compare (Edge _ _ len) (Edge _ _ len')
@@ -30,10 +29,11 @@ getDistance paths node1 =
 
 setDistance :: [PathInfo] -> Node -> Distance -> [PathInfo]
 setDistance paths node1 distance =
-    undefined
-    -- newPath : oldPaths where
-    --     newPath = PathInfo node1 (prevNode node1) distance
-    --     oldPaths = filter (\x -> (node x) /= node1) paths
+    newPath : oldPaths where
+        oldPath = head $ filter (\x -> (node x) == node1) paths
+        oldPaths = filter (\x -> (node x) /= node1) paths
+        newPath = PathInfo node1 (prevNode oldPath) distance
+
     
 -- Test Data
 node1 = Node 1 "a"
