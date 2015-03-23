@@ -27,13 +27,13 @@ getDistance :: [PathInfo] -> Node -> Distance
 getDistance paths node1 = 
     distance $ head $ filter (\x -> (node x) == node1) paths
 
-setDistance :: [PathInfo] -> Node -> Distance -> [PathInfo]
-setDistance paths node1 distance =
+setDistance :: [PathInfo] -> Node -> Distance -> PreviousNode -> [PathInfo]
+setDistance paths node1 distance prevn =
     newPath : oldPaths where
         -- This is very inefficient. Needs improvement.
         oldPath = head $ filter (\x -> (node x) == node1) paths
         oldPaths = filter (\x -> (node x) /= node1) paths
-        newPath = PathInfo node1 (prevNode oldPath) distance
+        newPath = PathInfo node1 prevn distance
 
     
 -- Test Data
