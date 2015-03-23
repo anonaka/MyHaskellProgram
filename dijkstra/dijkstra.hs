@@ -26,8 +26,12 @@ instance Ord Edge where
 
 getDistance :: [PathInfo] -> Node -> Distance
 getDistance paths node1 = 
-            distance $ head $ filter (\x -> (node x) == node1) paths
-            
+    distance $ head $ filter (\x -> (node x) == node1) paths
+
+setDistance :: [PathInfo] -> Node -> Distance -> [PathInfo]
+setDistance paths node1 distance =
+    undefined
+    
 -- Test Data
 node1 = Node 1 "a"
 node2 = Node 2 "b"
@@ -55,7 +59,7 @@ initPathInfo =
     )
     allNodes
 
-allPath = initPathInfo
+allPaths = initPathInfo
  
 findPathInfo :: [PathInfo] -> Node -> PathInfo
 findPathInfo allPath nd =
@@ -117,8 +121,6 @@ findEdge allEdges n1 n2 =
     head $ filter (\x -> (getEndNode x) == n2) $ findEdges allEdges n1
 
     
-
-
 main :: IO()
 main = do
   putStrLn "Dijkstra Method"
