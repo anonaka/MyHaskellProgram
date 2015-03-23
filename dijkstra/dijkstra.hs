@@ -9,13 +9,13 @@ type PreviousNode = Maybe Node
 data Node = Node NodeId NodeLabel deriving (Show,Eq)
 data Edge = Edge Node Node EdgeLength deriving (Show,Eq)
 
-
 -- Data structure to record shortest distance and path info
 data PathInfo = PathInfo {
               node :: Node,
               prevNode :: PreviousNode,
               distance :: Distance }
               deriving (Show,Eq)
+
                        
 instance Ord Edge where
     compare (Edge _ _ len) (Edge _ _ len')
@@ -24,6 +24,10 @@ instance Ord Edge where
         | otherwise = GT
 
 
+getDistance :: [PathInfo] -> Node -> Distance
+getDistance paths node1 = 
+            distance $ head $ filter (\x -> (node x) == node1) paths
+            
 -- Test Data
 node1 = Node 1 "a"
 node2 = Node 2 "b"
@@ -51,6 +55,8 @@ initPathInfo =
     )
     allNodes
 
+allPath = initPathInfo
+ 
 findPathInfo :: [PathInfo] -> Node -> PathInfo
 findPathInfo allPath nd =
     head $ filter (\x -> nd == (node x)) allPath
