@@ -31,6 +31,9 @@ getDistance paths node1 =
 setDistance :: [PathInfo] -> Node -> Distance -> [PathInfo]
 setDistance paths node1 distance =
     undefined
+    -- newPath : oldPaths where
+    --     newPath = PathInfo node1 (prevNode node1) distance
+    --     oldPaths = filter (\x -> (node x) /= node1) paths
     
 -- Test Data
 node1 = Node 1 "a"
