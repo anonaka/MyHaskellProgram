@@ -15,7 +15,13 @@ data PathInfo = PathInfo {
               prevNode :: PreviousNode,
               distance :: Distance }
               deriving (Show,Eq)
-                       
+
+instance Ord PathInfo where
+    compare path path'
+        | (distance path) == (distance path') = EQ
+        | (distance path) < (distance path') = LT
+        | otherwise = GT
+               
 instance Ord Edge where
     compare (Edge _ _ len) (Edge _ _ len')
         | len == len'   = EQ
@@ -27,8 +33,8 @@ getDistance :: [PathInfo] -> Node -> Distance
 getDistance paths node1 = 
     distance $ head $ filter (\x -> (node x) == node1) paths
 
-setDistance :: [PathInfo] -> Node -> Distance -> PreviousNode -> [PathInfo]
-setDistance paths node1 distance prevn =
+updateDistanceAndPrevNode  :: [PathInfo] -> Node -> Distance -> PreviousNode -> [PathInfo]
+updateDistanceAndPrevNode paths node1 distance prevn =
     newPath : oldPaths where
         -- This is very inefficient. Needs improvement.
         oldPath = head $ filter (\x -> (node x) == node1) paths
@@ -53,8 +59,7 @@ edge23 = Edge node2 node3 7
 
 allEdges = [edge12,edge13,edge24,edge34,edge23]
 
--- Init Path info
-
+-- Init 
 initPathInfo :: [PathInfo]
 initPathInfo =
     map (\node -> if isStartNode node
@@ -106,18 +111,28 @@ findNearestNode :: [Edge] -> Node -> Node
 findNearestNode allEdges node  =
     getEndNode $ minimum $ findEdges allEdges node 
                
-findShortestDistanceNode =
-    undefined
-                                      
-mainLogic :: [Node] -> [Node]
-mainLogic allNodes =
-    newQ
-    where
-      u = findShortestDistanceNode allNodes
-      newQ = delete u allNodes
-      nextNodeList = findNextNodes allEdges u
+findShortestDistanceNode :: [PathInfo] -> Node
+findShortestDistanceNode paths =
+    node $ minimum paths
+         
+updateAllPathInfo :: [PathInfo] -> Node -> [PathInfo]
+updateAllPathInfo = undefined
+                    
+mainLogic :: [PathInfo] -> [Node] -> [PathInfo]
+mainLogic paths q  =
+    if length q == 0
+    then
+        paths
+    else
+        mainLogic newPaths newQ 
+        where
+          u = findShortestDistanceNode paths
+          newQ = delete u allNodes
+          newPaths = updateAllPathInfo paths u
+                     
 
 
+                 
 -- NodeとNodeを結ぶEdgeを求める
 -- Node間は直結されている必要がある
 findEdge :: [Edge] -> Node -> Node -> Edge
