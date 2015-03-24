@@ -132,7 +132,7 @@ findShorterPath paths node1 node2 =
     in
       if d2 > d1 + len
       then
-          -- update node
+          -- update PathInfo with new distance
           paths
       else
           paths
