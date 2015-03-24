@@ -33,14 +33,6 @@ instance Ord Edge where
         | otherwise = GT
 
 
-updateDistanceAndPrevNode  :: [PathInfo] -> Node -> Distance -> PreviousNode -> [PathInfo]
-updateDistanceAndPrevNode paths node1 distance prevn =
-    newPath : oldPaths where
-        -- This is very inefficient. Needs improvement.
-        oldPath = head $ filter (\x -> (node x) == node1) paths
-        oldPaths = filter (\x -> (node x) /= node1) paths
-        newPath = PathInfo node1 prevn distance
-
     
 -- Test Data
 node1 = Node 1 "a"
@@ -124,16 +116,26 @@ getDistance :: [PathInfo] -> Node -> Distance
 getDistance paths node =
     distance $ findPathInfo paths node
 
+updateDistanceAndPrevNode  :: [PathInfo] -> Node -> Distance -> PreviousNode -> [PathInfo]
+updateDistanceAndPrevNode paths node1 distance prevn =
+    newPath : oldPaths where
+        -- This is very inefficient. Needs improvement.
+        oldPath = head $ filter (\x -> (node x) == node1) paths
+        oldPaths = filter (\x -> (node x) /= node1) paths
+        newPath = PathInfo node1 prevn distance
+
+
 findShorterPath :: [PathInfo] -> Node -> Node -> [PathInfo]
 findShorterPath paths node1 node2 =
     let d1 = getDistance paths node1
         d2 = getDistance paths node2
         len = getLengthBetweenNodes node1 node2
+        newDistance = d1 + len
     in
-      if d2 > d1 + len
+      if d2 > newDistance
       then
           -- update PathInfo with new distance
-          paths
+          updateDistanceAndPrevNode　paths node2 newDistance (Just node1)
       else
           paths
 
