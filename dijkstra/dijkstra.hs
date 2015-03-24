@@ -117,6 +117,13 @@ getLengthBetweeNodes :: Node -> Node -> EdgeLength
 getLengthBetweeNodes n1 n2 = undefined
                              
 
+-- NodeとNodeを結ぶEdgeを求める
+-- Node間は直結されている必要がある
+findEdge :: [Edge] -> Node -> Node -> Edge
+findEdge allEdges n1 n2 =
+    head $ filter (\x -> (endNode x) == n2) $ findEdges allEdges n1
+
+
 mainLogic :: [PathInfo] -> [Node] -> [PathInfo]
 mainLogic paths q  =
     if length q == 0
@@ -129,12 +136,6 @@ mainLogic paths q  =
           newQ = delete u allNodes
           newPaths = updateAllPathInfo paths u
                  
--- NodeとNodeを結ぶEdgeを求める
--- Node間は直結されている必要がある
-findEdge :: [Edge] -> Node -> Node -> Edge
-findEdge allEdges n1 n2 =
-    head $ filter (\x -> (endNode x) == n2) $ findEdges allEdges n1
-
     
 main :: IO()
 main = do
