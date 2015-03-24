@@ -135,7 +135,7 @@ findShorterPath paths node1 node2 =
       if d2 > newDistance
       then
           -- update PathInfo with new distance
-          updateDistanceAndPrevNode　paths node2 newDistance (Just node1)
+          updateDistanceAndPrevNode paths node2 newDistance (Just node1)
       else
           paths
 
