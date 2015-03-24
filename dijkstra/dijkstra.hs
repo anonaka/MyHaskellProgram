@@ -114,8 +114,9 @@ updateAllPathInfo :: [PathInfo] -> Node -> [PathInfo]
 updateAllPathInfo paths node = undefined
 
 getLengthBetweeNodes :: Node -> Node -> EdgeLength
-getLengthBetweeNodes n1 n2 = undefined
-                             
+getLengthBetweeNodes n1 n2 =
+    edgeLength $ findEdge allEdges n1 n2
+
 
 -- NodeとNodeを結ぶEdgeを求める
 -- Node間は直結されている必要がある
