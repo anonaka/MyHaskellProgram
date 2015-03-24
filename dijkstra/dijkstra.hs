@@ -33,10 +33,6 @@ instance Ord Edge where
         | otherwise = GT
 
 
-getDistance :: [PathInfo] -> Node -> Distance
-getDistance paths node1 = 
-    distance $ head $ filter (\x -> (node x) == node1) paths
-
 updateDistanceAndPrevNode  :: [PathInfo] -> Node -> Distance -> PreviousNode -> [PathInfo]
 updateDistanceAndPrevNode paths node1 distance prevn =
     newPath : oldPaths where
@@ -113,16 +109,33 @@ findShortestDistanceNode paths =
 updateAllPathInfo :: [PathInfo] -> Node -> [PathInfo]
 updateAllPathInfo paths node = undefined
 
-getLengthBetweeNodes :: Node -> Node -> EdgeLength
-getLengthBetweeNodes n1 n2 =
-    edgeLength $ findEdge allEdges n1 n2
-
-
+                               
 -- NodeとNodeを結ぶEdgeを求める
 -- Node間は直結されている必要がある
 findEdge :: [Edge] -> Node -> Node -> Edge
 findEdge allEdges n1 n2 =
     head $ filter (\x -> (endNode x) == n2) $ findEdges allEdges n1
+
+getLengthBetweenNodes :: Node -> Node -> EdgeLength
+getLengthBetweenNodes n1 n2 =
+    edgeLength $ findEdge allEdges n1 n2
+
+getDistance :: [PathInfo] -> Node -> Distance
+getDistance paths node =
+    distance $ findPathInfo paths node
+
+findShorterPath :: [PathInfo] -> Node -> Node -> [PathInfo]
+findShorterPath paths node1 node2 =
+    let d1 = getDistance paths node1
+        d2 = getDistance paths node2
+        len = getLengthBetweenNodes node1 node2
+    in
+      if d2 > d1 + len
+      then
+          -- update node
+          paths
+      else
+          paths
 
 
 mainLogic :: [PathInfo] -> [Node] -> [PathInfo]
