@@ -7,14 +7,18 @@ type Distance = Int
 type PreviousNode = Maybe Node
     
 data Node = Node NodeId NodeLabel deriving (Show,Eq)
-data Edge = Edge Node Node EdgeLength deriving (Show,Eq)
+data Edge = Edge {
+      startNode :: Node,
+      endNode :: Node,
+      edgeLength :: EdgeLength
+    } deriving (Show,Eq)
 
 -- Data structure to record shortest distance and path info
 data PathInfo = PathInfo {
-              node :: Node,
-              prevNode :: PreviousNode,
-              distance :: Distance }
-              deriving (Show,Eq)
+      node :: Node,
+      prevNode :: PreviousNode,
+      distance :: Distance
+    } deriving (Show,Eq)
 
 instance Ord PathInfo where
     compare path path'
@@ -23,9 +27,9 @@ instance Ord PathInfo where
         | otherwise = GT
                
 instance Ord Edge where
-    compare (Edge _ _ len) (Edge _ _ len')
-        | len == len'   = EQ
-        | len < len'    = LT
+    compare edge edge'
+        | (edgeLength edge) == (edgeLength edge') = EQ
+        | (edgeLength edge) < (edgeLength edge') = LT
         | otherwise = GT
 
 
@@ -90,26 +94,17 @@ getNodeId (Node id _ ) = id
 
 
 -- Edge functions
-getEdgeLength :: Edge -> EdgeLength
-getEdgeLength (Edge _ _ len) = len
-
-getStartNode :: Edge -> Node
-getStartNode (Edge start _ _) = start
-
-getEndNode :: Edge -> Node
-getEndNode (Edge _ end _) = end
-
 findEdges :: [Edge] -> Node -> [Edge]
 findEdges allEdges node = 
-    filter (\x -> (getStartNode x) == node) allEdges
+    filter (\x -> (startNode x) == node) allEdges
 
 findNextNodes :: [Edge] -> Node -> [Node]
 findNextNodes allEdges startNode  =
-    map getEndNode $ findEdges allEdges startNode
+    map endNode $ findEdges allEdges startNode
            
 findNearestNode :: [Edge] -> Node -> Node
 findNearestNode allEdges node  =
-    getEndNode $ minimum $ findEdges allEdges node 
+    endNode $ minimum $ findEdges allEdges node 
                
 findShortestDistanceNode :: [PathInfo] -> Node
 findShortestDistanceNode paths =
@@ -119,8 +114,8 @@ updateAllPathInfo :: [PathInfo] -> Node -> [PathInfo]
 updateAllPathInfo paths node = undefined
 
 getLengthBetweeNodes :: Node -> Node -> EdgeLength
-getLengthBetweeNodes node1 nod2 = undefined
-                                  
+getLengthBetweeNodes n1 n2 = undefined
+                             
 
 mainLogic :: [PathInfo] -> [Node] -> [PathInfo]
 mainLogic paths q  =
@@ -138,7 +133,7 @@ mainLogic paths q  =
 -- Node間は直結されている必要がある
 findEdge :: [Edge] -> Node -> Node -> Edge
 findEdge allEdges n1 n2 =
-    head $ filter (\x -> (getEndNode x) == n2) $ findEdges allEdges n1
+    head $ filter (\x -> (endNode x) == n2) $ findEdges allEdges n1
 
     
 main :: IO()
