@@ -117,7 +117,11 @@ findShortestDistanceNode paths =
          
 updateAllPathInfo :: [PathInfo] -> Node -> [PathInfo]
 updateAllPathInfo paths node = undefined
-                    
+
+getLengthBetweeNodes :: Node -> Node -> EdgeLength
+getLengthBetweeNodes node1 nod2 = undefined
+                                  
+
 mainLogic :: [PathInfo] -> [Node] -> [PathInfo]
 mainLogic paths q  =
     if length q == 0
