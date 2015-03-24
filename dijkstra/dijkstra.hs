@@ -116,7 +116,7 @@ findShortestDistanceNode paths =
     node $ minimum paths
          
 updateAllPathInfo :: [PathInfo] -> Node -> [PathInfo]
-updateAllPathInfo = undefined
+updateAllPathInfo paths node = undefined
                     
 mainLogic :: [PathInfo] -> [Node] -> [PathInfo]
 mainLogic paths q  =
@@ -129,9 +129,6 @@ mainLogic paths q  =
           u = findShortestDistanceNode paths
           newQ = delete u allNodes
           newPaths = updateAllPathInfo paths u
-                     
-
-
                  
 -- NodeとNodeを結ぶEdgeを求める
 -- Node間は直結されている必要がある
