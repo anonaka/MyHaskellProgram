@@ -136,7 +136,7 @@ findShorterPath paths node1 node2 =
       else
           paths
 
-updateAllPathInfo :: [PathInfo] -> Node -> [Node] ->[PathInfo]
+updateAllPathInfo :: [PathInfo] -> Node -> [Node] -> [PathInfo]
 updateAllPathInfo paths startNode [] = paths
 updateAllPathInfo paths startNode (x:xs) =
     let paths' = findShorterPath paths startNode x
