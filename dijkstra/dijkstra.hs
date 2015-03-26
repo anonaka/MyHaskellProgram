@@ -97,7 +97,7 @@ findNearestNode allEdges node  =
 
 findShortestDistanceNode :: [PathInfo] -> [Node] -> Node
 findShortestDistanceNode paths nodes =
-    undefined
+    node $ minimum $ filter (\x -> elem (node x) nodes) paths
                                         
 -- NodeとNodeを結ぶEdgeを求める
 -- Node間は直結されている必要がある
