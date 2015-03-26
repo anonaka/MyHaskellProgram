@@ -94,11 +94,11 @@ findNearestNode :: [Edge] -> Node -> Node
 findNearestNode allEdges node  =
     endNode $ minimum $ findEdges allEdges node 
                
-findShortestDistanceNode :: [PathInfo] -> Node
-findShortestDistanceNode paths =
-    node $ minimum paths
-         
-                               
+
+findShortestDistanceNode :: [PathInfo] -> [Node] -> Node
+findShortestDistanceNode paths nodes =
+    undefined
+                                        
 -- NodeとNodeを結ぶEdgeを求める
 -- Node間は直結されている必要がある
 findEdge :: [Edge] -> Node -> Node -> Edge
@@ -150,7 +150,7 @@ mainLogic paths q  =
     else
         mainLogic newPaths newQ 
         where
-          u = findShortestDistanceNode paths
+          u = findShortestDistanceNode paths q
           newQ = delete u allNodes
           connectedNodes = findNextNodes u
           newPaths = updateAllPathInfo paths u connectedNodes
