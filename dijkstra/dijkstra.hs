@@ -86,8 +86,8 @@ findEdges :: [Edge] -> Node -> [Edge]
 findEdges allEdges node = 
     filter (\x -> (startNode x) == node) allEdges
 
-findNextNodes :: [Edge] -> Node -> [Node]
-findNextNodes allEdges startNode  =
+findNextNodes :: Node -> [Node]
+findNextNodes startNode  =
     map endNode $ findEdges allEdges startNode
            
 findNearestNode :: [Edge] -> Node -> Node
@@ -98,9 +98,6 @@ findShortestDistanceNode :: [PathInfo] -> Node
 findShortestDistanceNode paths =
     node $ minimum paths
          
-updateAllPathInfo :: [PathInfo] -> Node -> [PathInfo]
-updateAllPathInfo paths node = undefined
-
                                
 -- NodeとNodeを結ぶEdgeを求める
 -- Node間は直結されている必要がある
@@ -138,6 +135,12 @@ findShorterPath paths node1 node2 =
           updateDistanceAndPrevNode paths node2 newDistance (Just node1)
       else
           paths
+
+updateAllPathInfo :: [PathInfo] -> Node -> [PathInfo]
+updateAllPathInfo paths node =
+    let connectedNodes = findNextNodes node
+    in
+      map updateDistanceAndPrevNode node paths
 
 
 mainLogic :: [PathInfo] -> [Node] -> [PathInfo]
