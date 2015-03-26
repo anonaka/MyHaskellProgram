@@ -136,12 +136,9 @@ findShorterPath paths node1 node2 =
       else
           paths
 
-updateAllPathInfo :: [PathInfo] -> Node -> [PathInfo]
-updateAllPathInfo paths node =
-    let connectedNodes = findNextNodes node
-    in
-      map (findShorterPath paths node) connectedNodes
-
+updateAllPathInfo :: [PathInfo] -> Node -> [Node] ->[PathInfo]
+updateAllPathInfo paths node = undefined
+                               
 
 mainLogic :: [PathInfo] -> [Node] -> [PathInfo]
 mainLogic paths q  =
@@ -153,8 +150,9 @@ mainLogic paths q  =
         where
           u = findShortestDistanceNode paths
           newQ = delete u allNodes
-          newPaths = updateAllPathInfo paths u
-                 
+          connectedNodes = findNextNodes u
+          newPaths = updateAllPathInfo paths u connectedNodes
+
     
 main :: IO()
 main = do
