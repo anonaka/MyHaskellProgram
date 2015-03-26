@@ -140,7 +140,7 @@ updateAllPathInfo :: [PathInfo] -> Node -> [PathInfo]
 updateAllPathInfo paths node =
     let connectedNodes = findNextNodes node
     in
-      map updateDistanceAndPrevNode node paths
+      map (findShorterPath paths node) connectedNodes
 
 
 mainLogic :: [PathInfo] -> [Node] -> [PathInfo]
