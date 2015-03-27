@@ -31,15 +31,12 @@ instance Ord Edge where
         | (edgeLength edge) == (edgeLength edge') = EQ
         | (edgeLength edge) < (edgeLength edge') = LT
         | otherwise = GT
-
-
     
 -- Test Data
 node1 = Node 1 "a"
 node2 = Node 2 "b"
 node3 = Node 3 "c"
-node4 = Node 4 "d"
-        
+node4 = Node 4 "d"        
         
 allNodes = [node1,node2,node3,node4]
         
@@ -151,7 +148,7 @@ mainLogic paths q  =
         mainLogic newPaths newQ 
         where
           u = findShortestDistanceNode paths q
-          newQ = delete u allNodes
+          newQ = delete u q
           connectedNodes = findNextNodes u
           newPaths = updateAllPathInfo paths u connectedNodes
 
