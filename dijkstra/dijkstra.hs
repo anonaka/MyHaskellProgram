@@ -140,17 +140,14 @@ updateAllPathInfo paths startNode (x:xs) =
     in updateAllPathInfo paths' startNode xs
       
 mainLogic :: [PathInfo] -> [Node] -> [PathInfo]
+mainLogic paths [] = paths
 mainLogic paths q  =
-    if length q == 0
-    then
-        paths
-    else
-        mainLogic newPaths newQ 
-        where
-          u = findShortestDistanceNode paths q
-          newQ = delete u q
-          connectedNodes = findNextNodes u
-          newPaths = updateAllPathInfo paths u connectedNodes
+    mainLogic newPaths newQ 
+    where
+      u = findShortestDistanceNode paths q
+      newQ = delete u q
+      connectedNodes = findNextNodes u
+      newPaths = updateAllPathInfo paths u connectedNodes
 
     
 main :: IO()
