@@ -6,7 +6,11 @@ type EdgeLength = Int
 type Distance = Int
 type PreviousNode = Maybe Node
     
-data Node = Node NodeId NodeLabel deriving (Show,Eq)
+data Node = Node {
+      nodeId :: NodeId,
+      nodeLagel :: NodeLabel
+    } deriving (Show,Eq)
+          
 data Edge = Edge {
       startNode :: Node,
       endNode :: Node,
@@ -63,22 +67,12 @@ findPathInfo :: [PathInfo] -> Node -> PathInfo
 findPathInfo allPath nd =
     head $ filter (\x -> nd == (node x)) allPath
         
--- Node functions
-
 isStartNode :: Node -> Bool
 isStartNode node =
-    if 1 == getNodeId node
+    if 1 == nodeId node
     then True
     else False
-    
-getNodeLabel :: Node -> NodeLabel
-getNodeLabel (Node _ label ) = label
 
-getNodeId :: Node -> NodeId
-getNodeId (Node id _ ) = id
-
-
--- Edge functions
 findEdges :: [Edge] -> Node -> [Edge]
 findEdges allEdges node = 
     filter (\x -> (startNode x) == node) allEdges
@@ -87,11 +81,6 @@ findNextNodes :: Node -> [Node]
 findNextNodes startNode  =
     map endNode $ findEdges allEdges startNode
            
-findNearestNode :: [Edge] -> Node -> Node
-findNearestNode allEdges node  =
-    endNode $ minimum $ findEdges allEdges node 
-               
-
 findShortestDistanceNode :: [PathInfo] -> [Node] -> Node
 findShortestDistanceNode paths nodes =
     node $ minimum $ filter (\x -> elem (node x) nodes) paths
@@ -151,7 +140,7 @@ mainLogic paths q  =
 
 showPath :: [PathInfo] -> Node -> [Maybe Node]
 showPath paths goalNode  =
-    showPathIter paths (Just goalNode) []
+    showPathIter paths (Just goalNode) [Just goalNode]
 
 showPathIter :: [PathInfo] -> (Maybe Node) -> [Maybe Node] -> [Maybe Node]
 showPathIter paths goalNode result =
@@ -171,7 +160,7 @@ findPathInfoM paths Nothing = Nothing
 findPathInfoM paths (Just node1) =
     prevNode $ findPathInfo paths node1
 
-shortestPath = mainLogic allPaths allNodes
+shortestPath = showPath (mainLogic allPaths allNodes) node4
                
 main :: IO()
 main = do
