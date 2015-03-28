@@ -156,7 +156,7 @@ showPath paths goalNode  =
 showPathIter :: [PathInfo] -> (Maybe Node) -> [Maybe Node] -> [Maybe Node]
 showPathIter paths goalNode result =
     if isStartNodeM goalNode
-    then (goalNode:result)
+    then result
     else
         showPathIter paths previousNode (previousNode:result)
         where
@@ -169,8 +169,10 @@ isStartNodeM (Just node) = isStartNode node
 findPathInfoM :: [PathInfo] -> (Maybe Node) -> (Maybe Node)
 findPathInfoM paths Nothing = Nothing
 findPathInfoM paths (Just node1) =
-    Just (node (findPathInfo paths node1))
+    prevNode $ findPathInfo paths node1
 
+shortestPath = mainLogic allPaths allNodes
+               
 main :: IO()
 main = do
   putStrLn "Dijkstra Method"
