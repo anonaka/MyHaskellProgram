@@ -30,7 +30,7 @@ node10 = Node 10 "h"
 node11 = Node 11 "j"
 node12 = Node 12 "t"
 node13 = Node 13 "g" -- Goal
-node14 = Node 14 "i"
+node14 = Node 14 "l"
 node15 = Node 15 "h"
 node16 = Node 16 "e"        
         
