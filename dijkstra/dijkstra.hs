@@ -149,7 +149,28 @@ mainLogic paths q  =
       connectedNodes = findNextNodes u
       newPaths = updateAllPathInfo paths u connectedNodes
 
-    
+showPath :: [PathInfo] -> Node -> [Maybe Node]
+showPath paths goalNode  =
+    showPathIter paths (Just goalNode) []
+
+showPathIter :: [PathInfo] -> (Maybe Node) -> [Maybe Node] -> [Maybe Node]
+showPathIter paths goalNode result =
+    if isStartNodeM goalNode
+    then (goalNode:result)
+    else
+        showPathIter paths previousNode (previousNode:result)
+        where
+          previousNode = findPathInfoM paths goalNode
+
+isStartNodeM :: (Maybe Node) -> Bool
+isStartNodeM Nothing = False
+isStartNodeM (Just node) = isStartNode node
+
+findPathInfoM :: [PathInfo] -> (Maybe Node) -> (Maybe Node)
+findPathInfoM paths Nothing = Nothing
+findPathInfoM paths (Just node1) =
+    Just (node (findPathInfo paths node1))
+
 main :: IO()
 main = do
   putStrLn "Dijkstra Method"
