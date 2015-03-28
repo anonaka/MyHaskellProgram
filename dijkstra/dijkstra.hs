@@ -46,8 +46,97 @@ edge1_14 = Edge node1 node14 16
 edge2_3 = Edge node2 node3 14
 edge2_4 = Edge node2 node4 1
 edge2_6 = Edge node2 node6 16
+
+edge3_6 = Edge node3 node6 1
+edge3_7 = Edge node3 node7 7
+
+edge4_5 = Edge node4 node5 5
+edge4_8 = Edge node4 node8 3
+
+edge5_2 = Edge node5 node2 4
+edge5_9 = Edge node5 node9 6
+
+edge6_5 = Edge node6 node5 3
+edge6_7 = Edge node6 node7 2 
+edge6_9 = Edge node6 node9 2
+edge6_10 = Edge node6 node10 6
+
+edge7_10 = Edge node7 node10 5
+edge7_13 = Edge node7 node13 17
+
+edge8_5 = Edge node8 node5 1
+edge8_14 = Edge node8 node14 3
+
+edge9_12 = Edge node9 node12 1
+
+edge10_13 = Edge node10 node13 10
+edge10_16 = Edge node10 node16 3
+
+edge11_4 = Edge node11 node4 1
+edge11_8 = Edge node11 node8 3            
+edge11_14 = Edge node11 node14 5  
+
+edge12_10 = Edge node12 node10 4
+edge12_15 = Edge node12 node15 3
+
+edge14_12 = Edge node14 node12 4
+edge14_15 = Edge node14 node15 10
+            
+edge15_10 = Edge node15 node10 5
+edge15_16 = Edge node15 node16 10
+
+edge16_13 = Edge node16 node13 15            
           
-allEdges = [edge1_2]
+allEdges = [
+ edge1_2,
+ edge1_4,
+ edge1_11,
+ edge1_14,
+           
+ edge2_3,
+ edge2_4,
+ edge2_6,
+
+ edge3_6,
+ edge3_7,
+
+ edge4_5,
+ edge4_8,
+
+ edge5_2,
+ edge5_9,
+
+ edge6_5,
+ edge6_7,
+ edge6_9,
+ edge6_10,
+
+ edge7_10,
+ edge7_13,
+         
+ edge8_5,
+ edge8_14,
+
+ edge9_12,
+
+ edge10_13,
+ edge10_16,
+
+ edge11_4,
+ edge11_8,
+ edge11_14,
+
+ edge12_10,
+ edge12_15,
+
+ edge14_12,
+ edge14_15,
+            
+ edge15_10,
+ edge15_16,
+
+ edge16_13
+ ]
 
 -- End Data
 
@@ -110,9 +199,13 @@ isStartNode node =
 
 findEdges :: [Edge] -> Node -> [Edge]
 findEdges allEdges node = 
-    filter (\x -> (((startNode x) == node) || ((endNode x) == node)))
+    filter (\x -> (startNode x) == node)
            allEdges
+-- findEdges allEdges node = 
+--    filter (\x -> (((startNode x) == node) || ((endNode x) == node)))
+--           allEdges
 
+           
 findNextNodes :: Node -> [Node]
 findNextNodes startNode  =
     map endNode $ findEdges allEdges startNode
@@ -196,13 +289,14 @@ findPathInfoM paths Nothing = Nothing
 findPathInfoM paths (Just node1) =
     prevNode $ findPathInfo paths node1
 
-shortestPath = showPath (mainLogic allPaths allNodes) node4
 
 ppPath :: [Maybe Node] -> [NodeLabel]               
 ppPath [] = []
 ppPath (Nothing:_) = []
 ppPath ((Just x):xs) = ((nodeLabel x):(ppPath xs))
 
+shortestPath = ppPath $ showPath (mainLogic allPaths allNodes) node13
+               
 main :: IO()
 main = do
   putStrLn "Dijkstra Method"
