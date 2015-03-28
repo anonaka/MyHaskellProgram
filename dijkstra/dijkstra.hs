@@ -1,5 +1,56 @@
 import Data.List
 
+-- -- Test Data
+-- node1 = Node 1 "a"
+-- node2 = Node 2 "b"
+-- node3 = Node 3 "c"
+-- node4 = Node 4 "d"        
+        
+-- allNodes = [node1,node2,node3,node4]
+        
+-- edge12 = Edge node1 node2 10
+-- edge13 = Edge node1 node3 30
+-- edge24 = Edge node2 node4 40
+-- edge34 = Edge node3 node4 5
+-- edge23 = Edge node2 node3 7
+
+-- allEdges = [edge12,edge13,edge24,edge34,edge23]
+
+-- Data
+node1 = Node 1 "s" -- Start
+node2 = Node 2 "h"
+node3 = Node 3 "u"
+node4 = Node 4 "e"
+node5 = Node 5 "e"
+node6 = Node 6 "n"
+node7 = Node 7 "e"
+node8 = Node 8 "a"
+node9 = Node 9 "o"        
+node10 = Node 10 "h"
+node11 = Node 11 "j"
+node12 = Node 12 "t"
+node13 = Node 13 "g" -- Goal
+node14 = Node 14 "i"
+node15 = Node 15 "h"
+node16 = Node 16 "e"        
+        
+        
+allNodes = [node1,node2,node3,node4,node5,node6,node7,node8,node9,
+            node10,node11,node12,node13,node14,node15,node16]
+        
+edge1_2 = Edge node1 node2 1
+edge1_4 = Edge node1 node4 3
+edge1_11 = Edge node1 node11 5
+edge1_14 = Edge node1 node14 16
+           
+edge2_3 = Edge node2 node3 14
+edge2_4 = Edge node2 node4 1
+edge2_6 = Edge node2 node6 16
+          
+allEdges = [edge1_2]
+
+-- End Data
+
 type NodeId = Integer
 type NodeLabel = String
 type EdgeLength = Int
@@ -36,22 +87,6 @@ instance Ord Edge where
         | (edgeLength edge) < (edgeLength edge') = LT
         | otherwise = GT
     
--- Test Data
-node1 = Node 1 "a"
-node2 = Node 2 "b"
-node3 = Node 3 "c"
-node4 = Node 4 "d"        
-        
-allNodes = [node1,node2,node3,node4]
-        
-edge12 = Edge node1 node2 10
-edge13 = Edge node1 node3 30
-edge24 = Edge node2 node4 40
-edge34 = Edge node3 node4 5
-edge23 = Edge node2 node3 7
-
-allEdges = [edge12,edge13,edge24,edge34,edge23]
-
 -- Init 
 initPathInfo :: [PathInfo]
 initPathInfo =
