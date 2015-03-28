@@ -8,7 +8,7 @@ type PreviousNode = Maybe Node
     
 data Node = Node {
       nodeId :: NodeId,
-      nodeLagel :: NodeLabel
+      nodeLabel :: NodeLabel
     } deriving (Show,Eq)
           
 data Edge = Edge {
@@ -75,7 +75,8 @@ isStartNode node =
 
 findEdges :: [Edge] -> Node -> [Edge]
 findEdges allEdges node = 
-    filter (\x -> (startNode x) == node) allEdges
+    filter (\x -> (((startNode x) == node) || ((endNode x) == node)))
+           allEdges
 
 findNextNodes :: Node -> [Node]
 findNextNodes startNode  =
@@ -161,7 +162,13 @@ findPathInfoM paths (Just node1) =
     prevNode $ findPathInfo paths node1
 
 shortestPath = showPath (mainLogic allPaths allNodes) node4
-               
+
+ppPath :: [Maybe Node] -> [NodeLabel]               
+ppPath [] = []
+ppPath (Nothing:_) = []
+ppPath ((Just x):xs) = ((nodeLabel x):(ppPath xs))
+
 main :: IO()
 main = do
   putStrLn "Dijkstra Method"
+
